@@ -99,7 +99,7 @@ WantedBy=multi-user.target
 
 Test your time formats without saving/re-running your cronjob a bunch of times.
 
-systemd-analyze calendar "*:*:0/30"
+`systemd-analyze calendar "*:*:0/30"`
 
 Based on: `man systemd.time`
 
