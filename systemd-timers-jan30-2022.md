@@ -51,16 +51,21 @@ Systemd timers work the same way, but split each concept into its own file.
 
 ### Create demo service
 
-`vim /usr/local/bin/tutorialinux-systemd-timers.sh`
+`sudo vim /usr/local/bin/tutorialinux-systemd-timers.sh`
 
 ```
+#!/usr/bin/env bash
 echo "I just ran on $(date)"
 exit 0
 ```
 
+Make it executable:
+`sudo chmod +x /usr/local/bin/tutorialinux-systemd-timers.sh`
+
+
 ### Create systemd service unit file
 
-`vim /etc/systemd/system/tutorialinux.service`
+`sudo vim /etc/systemd/system/tutorialinux.service`
 
 
 ```
@@ -74,41 +79,47 @@ ExecStart=/usr/local/bin/tutorialinux-systemd-timers.sh
 
 ### Create systemd timer unit file
 
-`vim /etc/systemd/system/tutorialinux.timer`
+`sudo vim /etc/systemd/system/tutorialinux.timer`
 
 ```
 [Unit]
-Description=My job timer
+Description=tutorialinux service timer
 
 [Timer]
 OnBootSec=0min
 OnCalendar=*:*:0/30
-Unit=my_job.service
+Unit=tutorialinux.service
 
 [Install]
 WantedBy=multi-user.target
+
 ```
 
 ## Cool features: testing
 
 Test your time formats without saving/re-running your cronjob a bunch of times.
 
-systemd-analyze calendar *:*:0/30
+systemd-analyze calendar "*:*:0/30"
 
 Based on: `man systemd.time`
 
 
 ### Turn it on!
 
-Enable the timer and you're good to go!
-`systemctl enable tutorialinux.timer`
+Tell systemd about the new unit files, enable the timer,  and you're good to go!
+`sudo systemctl daemon-reload`
+`sudo systemctl start tutorialinux.timer`
+
+If you want to keep this around after a reboot:
+`sudo systemctl enable tutorialinux.timer`
+
 
 
 
 ## Logging
 
 Just like any other systemd unit -- check the journal!
-`journalctl -u tutorialinux.service`
+`journalctl -fu tutorialinux.service`
 
 
 ## Sources
