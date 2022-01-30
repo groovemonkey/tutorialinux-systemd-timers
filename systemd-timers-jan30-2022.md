@@ -107,10 +107,13 @@ Based on: `man systemd.time`
 ### Turn it on!
 
 Tell systemd about the new unit files, enable the timer,  and you're good to go!
+
 `sudo systemctl daemon-reload`
+
 `sudo systemctl start tutorialinux.timer`
 
 If you want to keep this around after a reboot:
+
 `sudo systemctl enable tutorialinux.timer`
 
 
@@ -119,6 +122,7 @@ If you want to keep this around after a reboot:
 ## Logging
 
 Just like any other systemd unit -- check the journal!
+
 `journalctl -fu tutorialinux.service`
 
 
